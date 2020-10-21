@@ -1,3 +1,5 @@
+enablePlugins(PackPlugin)
+
 lazy val root = project
   .in(file("."))
   .settings(

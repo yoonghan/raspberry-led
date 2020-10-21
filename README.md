@@ -4,4 +4,6 @@
 1. Run `sbt compile`
 2. To execute `sbt pack`, then run executable in target/pack
 
+## Important
+Code must run as admin. 
 

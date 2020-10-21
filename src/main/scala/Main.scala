@@ -1,30 +1,40 @@
 import com.pi4j.io.gpio._
 
 object Main {
+  val gpio = GpioFactory.getInstance
+
+  val led1 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_07, "MyLED", PinState.HIGH);
+  val led2 = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "MyLED2", PinState.HIGH);
+
+
+  def runLighting(): Unit = {
+    led1.toggle;
+    led2.toggle;
+  } 
+
+
   def main(args: Array[String]): Unit = {
     println("<--Pi4J--> GPIO Controller")
-    val gpio = GpioFactory.getInstance
 
-    val pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_07, "MyLED", PinState.HIGH);
+    led1.setShutdownOptions(true, PinState.LOW);
+    led2.setShutdownOptions(true, PinState.LOW);
+
+    Thread.sleep(5000)
+
+    led1.low();
+    led2.high();
+    println("Initialized")
+
+    Thread.sleep(5000)
    
-    pin.setShutdownOptions(true, PinState.LOW);
-    println("Should be ON")
+    runLighting
 
     Thread.sleep(5000)
 
-    pin.low();
-    println("Should be OFF")
+    runLighting
 
     Thread.sleep(5000)
-
-    pin.toggle
-    println("Should be ON")
-
-    Thread.sleep(5000)
-
-    pin.toggle
-    println("Should be OFF")
-
-//    gpio.shutdown
+ 
+    gpio.shutdown
   }
 }
